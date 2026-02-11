@@ -12,15 +12,25 @@ pipeline {
     }
 
     stage('Build WAR (Maven in Docker)') {
-      steps {
-        sh '''
-          docker run --rm \
-            -v "$PWD":/app -w /app \
-            maven:3.9.6-eclipse-temurin-17 \
-            mvn clean test package
-        '''
-      }
-    }
+  steps {
+    sh '''
+      echo "=== Workspace path ==="
+      pwd
+      echo "=== List files in workspace ==="
+      ls -la
+      echo "=== Check pom.xml ==="
+      test -f pom.xml && echo "pom.xml found ✅" || (echo "pom.xml NOT found ❌" && exit 1)
+
+      docker run --rm \
+        -v "$PWD":/app -w /app \
+        maven:3.9.6-eclipse-temurin-17 \
+        mvn -q clean test package
+
+      echo "=== WAR produced ==="
+      ls -la target/*.war
+    '''
+  }
+}
 
     stage('Docker Build') {
       steps {
