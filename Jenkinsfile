@@ -6,7 +6,7 @@ pipeline {
   }
 
   environment {
-    DOCKERHUB_USER = "Keerthana2706"
+    DOCKERHUB_USER = "keerthana2706"
     IMAGE_NAME = "abctechnologies"
   }
 
