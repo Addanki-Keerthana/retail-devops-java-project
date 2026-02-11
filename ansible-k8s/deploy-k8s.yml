@@ -1,0 +1,31 @@
+- name: Deploy ABC Technologies to Minikube
+  hosts: local
+  gather_facts: no
+
+  tasks:
+    - name: Show kubectl context
+      command: kubectl config current-context
+      register: ctx
+
+    - debug:
+        var: ctx.stdout
+
+    - name: Apply Kubernetes manifests
+      command: kubectl apply -f ../k8s/
+
+    - name: Wait for deployment rollout
+      command: kubectl rollout status deploy/abctechnologies --timeout=120s
+
+    - name: Show pods
+      command: kubectl get pods -l app=abctechnologies -o wide
+      register: pods
+
+    - debug:
+        var: pods.stdout_lines
+
+    - name: Show service
+      command: kubectl get svc abctechnologies-svc
+      register: svc
+
+    - debug:
+        var: svc.stdout_lines
