@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: abctechnologies
+  labels:
+    app: abctechnologies
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: abctechnologies
+  template:
+    metadata:
+      labels:
+        app: abctechnologies
+    spec:
+      containers:
+      - name: abctechnologies
+        image: keerthana2706/abctechnologies:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
