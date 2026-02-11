@@ -6,10 +6,7 @@ pipeline {
     IMAGE_NAME = "abctechnologies"
   }
 
-  stages {
-    stage('Checkout') {
-      steps { checkout scm }
-    }
+  
 
     stage('Build WAR (Maven in Docker)') {
   steps {
